@@ -1,0 +1,52 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Thursday, September 10, 2009
+# Description: Functional Programming Assignment #1
+# JavaScript Example
+
+How To Run The Example
+----------------------
+
+  1. Run the JavaScript Source through an Interpreter
+     (Interperter is assumed to be aliased as "js")
+
+    shell> js -f bag.js
+
+
+Links to JavaScript Interpreters
+--------------------------------
+
+  All of the following Interpreters support the "-f <file>" command line switch
+  to interpret a source file and have been tested with our script.
+
+  1. Apple's Nitro (C++)
+  If you're on Mac OS X you may be able to use the System JS Interpreter:
+  /System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc
+  Information => http://webkit.org/
+  Build Info => http://webkit.org/building/build.html
+
+  2. Mozilla's Spidermonkey (C)
+  Information => http://www.mozilla.org/js/spidermonkey/
+  Download => http://ftp.mozilla.org/pub/mozilla.org/js/
+  Build Info => https://developer.mozilla.org/en/SpiderMonkey_Build_Documentation
+
+  3. Mozilla's Rhino (Java)
+  Information => http://www.mozilla.org/rhino/
+  Download => http://www.mozilla.org/rhino/download.html
+
+  4. Google's v8 (C++)
+  Information => http://code.google.com/p/v8/
+  Build Info => http://code.google.com/apis/v8/build.html
+
+
+Overview of the Code
+--------------------
+
+  JavaScript is very similar to Scheme, and thus the implementation is very
+  similar.  We even decided to implement the "car" and "cdr" operations from
+  Scheme, and use those instead of basic JavaScript looping.  This shows how
+  similar JavaScript's `where` is in comparison to Scheme's.
+
+  Array.prototype.map may not be available in all interpreters, so we provide
+  a JavaScript implementation if needed.
+
+  Array.prototype.toString is overriden to make the output more clear.

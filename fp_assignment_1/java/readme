@@ -1,0 +1,39 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Thursday, September 10, 2009
+# Description: Functional Programming Assignment #1
+# Java Example
+
+How To Run The Example
+----------------------
+
+  1. Compile the Java Files
+
+    shell> javac *.java
+
+  2. Run the Driver
+
+    shell> java Driver
+
+
+Overview of the Code
+--------------------
+
+  The idea of a Function is an Object with a `call` method which takes in a
+  List of arguments and returns something.  Because of "something" out Function
+  class is generic so you can specify the return type, and thus get compile
+  time checking. Function<T> must return type T from its call method. Function
+  itself is just an Interface specifying that Call method.
+
+  A Predicate is a Function that returns a Boolean. Very simple.
+
+  To Negate a Predicate there is a wrapper class NotPredicate Factory.  The
+  static `NotPredicate.not` method will create a Predicate that wraps the
+  provided Predicate and negates the results.  This satisfies "not?".
+
+  The Bag class wraps List<List>.  It implements "where", "map", and "join".
+  Each function rather transparently just passes records into the provided
+  Functions or Predicates and acts accordingly.
+
+  Creating a Function/Predicate can be done explicitly by making a full blown
+  class, but can be easily done with anonomous classes (this is the approach
+  taken in the Driver class).

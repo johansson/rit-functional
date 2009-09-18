@@ -1,0 +1,34 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Thursday, September 10, 2009
+# Description: Functional Programming Assignment #1
+# Overview
+
+Part `a` and `b`
+----------------
+
+There is a README.txt associated with each directory to show you how to run
+the specific example.  Included there are 4 directories:
+
+  + c
+  + java
+  + javascript
+  + ruby
+
+
+Part `c`
+--------
+
+The solution and explanation for the final part of the assignement is inside
+the final directory:
+
+  + part_c
+
+
+Resources Used
+--------------
+
+We used no resources other then those listed in the source code and on our
+Reading Lists:
+
+  + http://www.cs.rit.edu/~jjp1820/fp/
+  + http://conquerant.org/Haskell.aspx

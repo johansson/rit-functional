@@ -1,0 +1,30 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Thursday, September 10, 2009
+# Description: Functional Programming Assignment #1
+# Ruby Example
+
+How To Run The Example
+----------------------
+
+  1. Run the Ruby Source through an Interpreter
+
+    shell> ruby bag.rb
+
+
+Notes on the Interpreter
+------------------------
+
+  Ruby should be available on any "sane" machine.  If not a simple Google
+  search to get instructions for your platform should suffice.
+
+  Our script has been tested with Both Ruby 1.8 and Ruby 1.9.  Both work.
+
+
+Overview of the Code
+--------------------
+
+  Ruby has "blocks" which are essentially first order functions.  Thus,
+  it gets all the benefits of functional languages and its implementation
+  of "where", "not", and "join" are very easy.  Its flexible Array
+  implementation already provides some useful functional methods such as
+  "select" and "map".

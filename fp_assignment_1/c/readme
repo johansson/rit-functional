@@ -1,0 +1,66 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Wednesday September 16, 2009
+# Description: Functional Programming Assignment #1
+# C Example
+
+bag.c was written by Will Johansson entirely, with some helpful
+	abstract suggestions from my partner Joe and some code
+	stolen from GNU for the backtrace function.
+
+Compile it with any C compiler:
+	On Unix: $ gcc -o bag bag.c
+	On Windows: > cl.exe /out:bag.exe bag.c
+	
+Run it:
+	On Unix: $ ./bag
+	On Windows: > bag
+
+Overview:
+	I chose C because 1.) it's what I am most experienced with
+	2.) I thought it'd be interesting to hack C to get it working
+	somewhat like a functional programming language,to learn how
+	it actually works.
+	
+	I have several Types, they are Person, Room, String and HopeCallerKnows.
+	The first three represent what they are and thus give us some type safety
+	and genericity. All the structs use the Type enum to define what they are.
+	
+	The structures themselves are later used as the data field in linked_list.
+	That way we can store the data much like Lisp/Scheme does.
+	
+	For memory management, I elected to do shallow copies for most of this,
+	lending performance reasons as what Lisp/Scheme does anyway. But I have
+	to be careful what and when to free, for this reason I've made a free_list
+	function that will free either all nodes and data or just the nodes. Also,
+	I don't call functions returning a list as arguments, as this simplifies
+	memory management for me, but is not _quite_ functional. But to me, I understand
+	the concept and thus it's "good enough for me" especially after a whole
+	week of hacking C to make this possible!
+	
+	As for the functionality, it's quite simple. I have function pointers:
+	
+		typedef int(*predicate)(linked_list *ptr);
+		typedef int(*compare)(linked_list *a, linked_list *b);
+		typedef void*(*mapped)(linked_list *ptr);
+		typedef void(*process)(linked_list *ptr);
+		
+	predicate obviously gives us support for predicates. It accepts a linked_list
+	entry pointer. Functions written to comply this returns true or false
+	based on what it decides is as such from the pointer. Unfortunately I cannot get
+	C to pass a second function not() so predicates implementing this for
+	higher level functions as where must have a _not equivalent, like where_not. See
+	code for more details.
+	
+	compare is used for mapping. Implementing functions simply compare two entries
+	to a linked list and returns true if they are both the same.
+	
+	mapped is used again for mapping. Implementing functions return a pointer to
+	a _NEW_ object (in our case, the join object, person_room). Here it shouldn't
+	be concerned with implementation details of person_room, but unfortunately
+	C's limitations are being run into here. We force the user to cast this after
+	the function has returned the pointer.
+	
+	process is for anything that wants to perform an action with a linked_list entry.
+	In this case, we use it for printing some lists.
+	
+	All the required functions are implemented. See code for documentation on those.

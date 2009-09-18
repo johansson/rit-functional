@@ -1,0 +1,92 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Thursday, September 10, 2009
+# Description: Functional Programming Assignment #1
+# Part C - Haskell
+
+Problem
+-------
+
+If you load fun.lhs and execute take 3 perfects there is a noticable delay
+after the third perfect number appears and before the statement completes.
+Explain what causes the delay and implement a (general) alternative which
+circumvents the problem.
+
+
+Explanation and Fix
+-------------------
+
+fun.lhs provides an implementation of `take` that is overly greedy. Here is
+the implementation it provides:
+
+    take n (x:xs)
+      | n <= 0 = []
+      | True   = x : take (n-1) xs
+
+The function's declaration uses a pattern matching trick (x:xs) meaning
+`x` is the head of the list and `xs` is the tail of the list.  This is useful
+in the second case but detremental in the first case.  This means that before
+testing the guards Haskell will evaluate the head of the list to get `x`,
+even in the case where `n == 0` and it isn't even needed.  Even though Haskell
+has lazy evaluation, it is forced to come up with that first `x`, which ends
+up requiring a lot of processing.
+
+There are multiple solutions.  A half solution would eliminate the recursive
+call from the lower guard which causes the unwanted long (take 0):
+
+    -- Bad Solution
+    take n (x:xs)
+      | n <= 0 = []
+      | n == 1 = [x]
+      | True   = x : take (n-1) xs
+
+However, this still has issues with `take 0 reallySlowThing` and errors when
+taking from an empty list. A better solution would eliminate the pattern
+evaluation and avoid the pattern matching in the definition and handle it only
+when its required.  It would also have to handle taking from an empty list:
+
+    -- Better Solution
+    take n list
+      | n <= 0     = []
+      | list == [] = []
+      | otherwise  = let (x:xs) = list in x : take (n-1) xs
+
+    -- Alternative Form
+    take :: (Num i) => i -> [a] -> [a]
+    take 0 _  = []
+    take _ [] = []
+    take n (x:xs) = x : take (n-1) xs
+
+This solution works as expected.  It only reaches into the provided `list`
+when it needs to grab at least 1 element.  Thus Haskell can exploit its lazy
+evaluation and not calculate any elements in the list if it doesn't need to.
+
+
+Testing the Solutions
+---------------------
+
+    -- Needed to test
+    perfects = filter (\n -> sum (factors n) == n) [1..]
+        where factors n = [i | i <- [1..n `div` 2], n `mod` i == 0]
+    
+    badtake n (x:xs)
+        | n <= 0 = []
+        | n == 1 = [x]
+        | True   = x : take (n-1) xs
+    
+    goodtake n list
+        | n <= 0     = []
+        | list == [] = []
+        | otherwise  = let (x:xs) = list in x : take (n-1) xs
+    
+    -- Will Be Instant
+    -- goodtake 0 $ drop 3 perfects
+    
+    -- Will Be the Empty List
+    -- goodtake 1 []
+      
+    -- Will Take a Long Time
+    -- badtake 0 $ drop 3 perfects
+    
+    -- Will Throw an Error
+    -- badtake 1 []
+    
