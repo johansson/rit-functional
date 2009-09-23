@@ -1,0 +1,17 @@
+README
+
+C# version by Will Johansson
+
+This exploits the fact that C# does delegates.
+
+Sorry, this isn't well commented. I was working on a C++ version and gave up because C++ templates were frustrating me. :)
+
+Compile on Linux with mono:
+
+	gmcs *.cs /out:infinite.exe
+	mono infinite.exe
+
+Or on Windows:
+
+	mcs /out:infinite.exe
+	infinite
