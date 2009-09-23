@@ -1,0 +1,52 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Wednesday September 23, 2009
+# Description: Functional Programming Assignment #2
+# Haskell Example
+
+How To Run The Example
+----------------------
+
+  1. To Play With the Library Load it in an Interpreter such as ghci
+
+    shell> ghci
+    GHCi, version 6.8.3: http://www.haskell.org/ghc/  :? for help
+    Loading package base ... linking ... done.
+    Prelude> :load seq
+    [1 of 1] Compiling Assignment       ( seq.lhs, interpreted )
+    Ok, modules loaded: Assignment.
+    *Assignment> ...
+    
+  2. Run the Tests - Run the Shell Script from a Bash Shell
+     
+    shell> ./run_tests.sh
+    ....
+    "PASS"
+    "PASS"
+    "PASS"
+    ...
+
+
+Overview of the Code
+--------------------
+
+  The entire Haskell implementation is our own work, refined over and over
+  after working with it and discovering new ideas. No built in functions are
+  used, only the built in [x,x..] syntax to initialize some basic lists.
+  
+  All functions are defined with a trailing single quote, meant to be read like
+  the mathematical sigil, namely prime.  So take' can be read as "take prime".
+  This is so we don't conflict with any of the Prelude's defined functions and
+  if you load the library directly in an interpreter (such as ghci) you can
+  test out functions side by side with the built-in Haskell functions.
+  
+  Most of the functions are prefixed with their type declarations. This was
+  both as an exercise for us as well as useful documentation when developing
+  the library (easy to look it up in the file itself then run the interpreter
+  and determine any inferred types). These type declarations are sometimes left
+  out when the functions are implemented as a curry or are straight forward (a
+  single line).
+
+  After the implementation of the functions I (Joe) played around with a
+  function to generate a tail recursive, or memoized, sequence generator named
+  "twistie". It produced some interesting results and some neat challenges
+  that I felt was worth mentioning.

@@ -1,0 +1,49 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Wednesday September 23, 2009
+# Description: Functional Programming Assignment #2
+# Java Example
+
+How To Run The Example
+----------------------
+
+  1. Compile the Java Files
+
+    shell> javac *.java
+
+  2. Run the Driver (runs tests)
+
+    shell> java Driver
+
+
+Overview of the Code
+--------------------
+
+  A Function has an input type and an output type. A DoubleFunction has two
+  input types and a single output type. These are both Interfaces that have
+  simple concrete implementations in the Driver such as AddOne (Int -> Int),
+  and Add (Int and Int -> Int).
+  
+  Pair and Sequence were the provided hints from the instructor. Pairs are the
+  building blocks of Sequences. A Pair is an element of a particular type
+  and a sequence that can generate future elements of the same type. A sequence
+  is an Interface that defines a function returning yet another Pair. Thus to
+  mimic an infinite list you get the first element of a Pair (the head), and
+  evaluate the second element of the Pair (the tail) to produce another Pair
+  from which you can get the head and evaluate the tail forever.
+  
+  The Driver implements all of the required methods as templated static
+  functions so as to retain the look and feel of the infinite method calls in
+  other languages. It does not have the "Object Oriented" look and feel that
+  Java normally has. This could be improved.
+  
+  The functions in the Driver work only with Sequences, "infinite lists". They
+  take them in as parameters and produce them as results where appropriate. In
+  order to manipulate infinite lists the sequences are only ever worked on
+  when they are truely needed, such as "take".  One more interesting point is
+  that because a Sequence returns a Pair (which has its own Sequence) an
+  individual Sequence can be reused over and over with the same expected
+  results (barring there is no explicit state to change the behavior). So you
+  refer to a specific Sequence, which is a single "point" inside an infinite
+  list and reuse it as you'd expect it to.
+  
+  The tests are exactly the same as the JavaScript tests.

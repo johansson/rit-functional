@@ -26,7 +26,7 @@ Array.prototype.getTail = function() {
 
 function evaluateIfNeeded(lst) {
     return (typeof lst[0] === 'function') ? lst[0]() : lst;
-}    
+}
 
 
 // -----------
@@ -43,7 +43,7 @@ function take(n, lst) {
 
 
 // -------------------
-//  Basic Enumerators 
+//  Basic Enumerators
 // -------------------
 
 function repeat(n) {
@@ -57,7 +57,7 @@ function climb(start, step) {
 
 
 // -----------------
-//  Basic Iterators 
+//  Basic Iterators
 // -----------------
 
 function map(func, lst) {
@@ -186,7 +186,7 @@ function compareArrays(a1, a2) {
         if (a1[i] !== a2[i])
             return false;
     return true;
-}           
+}
 
 
 function runTest(str, actual, expected) {

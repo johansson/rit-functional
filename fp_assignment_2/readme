@@ -1,0 +1,25 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Wednesday September 23, 2009
+# Description: Functional Programming Assignment #2
+# Overview
+
+Infinite Lists
+--------------
+
+Each directory implements infinite lists, "sequences", in a different language.
+There is a "readme" file inside each of these directories providing compilation
+or build instructions. The included directories are:
+
+  + haskell
+  + java
+  + javascript
+
+
+Resources Used
+--------------
+
+We used no resources other then those listed in the source code and on our
+Reading Lists:
+
+  + http://www.cs.rit.edu/~jjp1820/fp/
+  + http://conquerant.org/Haskell.aspx
