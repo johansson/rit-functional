@@ -1,0 +1,24 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Friday September 25, 2009
+# Description: Functional Programming Assignment #3
+# Overview
+
+Loops and Matrix Functions
+--------------------------
+
+The Haskell implementations of the assignment are included in their properly
+named module files:
+
+  + Matrix.lhs
+  + Select.lhs
+  + Subset.lhs
+
+
+Resources Used
+--------------
+
+We used no resources other then those listed in the source code and on our
+Reading Lists:
+
+  + http://www.cs.rit.edu/~jjp1820/fp/
+  + http://conquerant.org/Haskell.aspx
