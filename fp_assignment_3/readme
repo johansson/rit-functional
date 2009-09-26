@@ -14,6 +14,28 @@ named module files:
   + Subset.lhs
 
 
+Running Tests
+-------------
+
+We developed a simple testing script. Inside the Literate Haskell Files if you
+include a line starting with "@" it is interpreted as a test line! The line
+should be believed to evaluate to `True`.
+
+The tests are loaded with our Tester.lhs library.  It includes a couple very,
+very basic test functions.
+
+To test an individual file use the `test_runner` shell script:
+
+  shell> ./test_runner 
+  usage: test_runner [-v] fileName
+  	-v	echos the test script to the console
+
+  shell> ./test_runner Tester.lhs 
+  "PASS"
+  "PASS"
+  ...
+
+
 Resources Used
 --------------
 

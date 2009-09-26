@@ -18,6 +18,13 @@ Helper Functions
 > col :: [[a]] -> Int -> [a]
 > col matrix i = [ row !! i | row <- matrix ]
 
+@ split (+) [1,2] == 3
+@ split (-) [2,1] == 1
+@ row [[1,2],[3,4]] 0 == [1,2]
+@ row [[1,2],[3,4]] 1 == [3,4]
+@ col [[1,2],[3,4]] 0 == [1,3]
+@ col [[1,2],[3,4]] 1 == [2,4]
+
 
 (c) Matrix Addition
 -------------------
@@ -35,6 +42,8 @@ Precondition: Both matrices must have the same dimension
 > add = matrixop (+)
 > sub = matrixop (-)
 
+@ add [[1,2],[3,4]] [[5,6],[7,8]] == [[6,8],[10,12]]
+
 
 (d) Inner Product
 -----------------
@@ -49,6 +58,12 @@ The other functions are nearly identical to the built-in zipWith function.
 > inner = zipWith
 > mplus = zipWith (+)
 
+@ pair 1 2 == [1,2]
+@ pair [1] [2] == [[1],[2]]
+@ inner pair [1,2,3] [4,5,6] == [[1,4],[2,5],[3,6]]
+@ inner (+) [1,2,3] [4,5,6] == [5,7,9]
+@ inner mplus [[1,2],[3,4]] [[5,6],[7,8]] == [[6,8],[10,12]]
+
 
 (e) Transpose
 -------------
@@ -61,6 +76,9 @@ The columns are read in order from the first to the last.
 > transpose [] = []
 > transpose matrix = [ col matrix i | i <- [0..lengthOfRow - 1] ]
 >     where lengthOfRow = length (head matrix)
+
+@ transpose [[1,2,3],[4,5,6]] == [[1,4],[2,5],[3,6]]
+@ transpose [[1,4],[2,5],[3,6]] == [[1,2,3],[4,5,6]]
 
 
 (f) Cartesian Product
@@ -75,6 +93,9 @@ exhausted. The output is one list containing all the resulting sublists.
 
 > cross :: (a -> b -> c) -> [a] -> [b] -> [[c]]
 > cross f m1 m2  = [ [ f x y | y <- m2 ] | x <- m1 ]
+
+@ cross pair [1,2,3] [4,5,6] == [[[1,4],[1,5],[1,6]],[[2,4],[2,5],[2,6]],[[3,4],[3,5],[3,6]]]
+@ cross pair [[1,2],[3,4]] [[5,6],[7,8]] == [[[[1,2],[5,6]],[[1,2],[7,8]]],[[[3,4],[5,6]],[[3,4],[7,8]]]]
 
 
 (g) Matrix Multiplication
@@ -105,3 +126,7 @@ Each step was broken down into easy to manage chunks:
 > mul m1 m2 = [ map sumInnards $ map multiplyLists x | x <- cross pair m1 (transpose m2) ]
 >     where multiplyLists list = split (inner (*)) list
 >           sumInnards    list = foldr (+) 0 list
+
+@ mul [[1,2],[3,4]] [[5,6],[7,8]] == [[19,22],[43,50]]
+@ mul [[1,2,3]] [[4],[5],[6]] == [[32]]
+@ mul [[4],[5],[6]] [[1,2,3]] == [[4,8,12],[5,10,15],[6,12,18]]

@@ -6,7 +6,7 @@ Haskell
 Data.List is included for `delete`.
 
 > module Subset where
-> import Data.List hiding (transpose)
+> import qualified Data.List hiding (transpose)
 
 
 Helper Functions
@@ -16,6 +16,16 @@ Helper Functions
 > flatten [] = []
 > flatten (x:xs) = x ++ (flatten xs)
 
+> removeIndex i list
+>   | list == [] = []
+>   | i == 0     = removeIndex (i-1) (tail list)
+>   | otherwise  = let (h:t) = list in h: removeIndex (i-1) t
+
+@ flatten [[1],[2]] == [1,2]
+@ flatten [ [[1,2],[2,3]], [[4,5],[6,7]] ] == [[1,2],[2,3],[4,5],[6,7]]
+@ removeIndex 0 "ABCCBA" == "BCCBA"
+@ removeIndex 4 "ABCCBA" == "ABCCA"
+
 
 (a) Fixed Sublists
 ------------------
@@ -24,8 +34,8 @@ Generic Implementation followed by curried aliases.
 
 > subn :: (Eq b, Num a) => a -> [b] -> [[b]]
 > subn 0 list = [list]
-> subn 1 list = [ delete x list | x <- list ]
-> subn n list = nub $ flatten [ subn (n-1) (delete x list) | x <- list ]
+> subn 1 list = [ removeIndex x list | x <- [0..length list - 1] ]
+> subn n list = Data.List.nub $ flatten [ subn (n-1) (removeIndex x list) | x <- [0..length list - 1] ]
 
 > sub1 :: (Eq a) => [a] -> [[a]]
 > sub1 = subn 1
@@ -33,3 +43,8 @@ Generic Implementation followed by curried aliases.
 > sub2 = subn 2
 > sub3 :: (Eq a) => [a] -> [[a]]
 > sub3 = subn 3
+
+@ xsort (sub1 [1,2,3,4]) == xsort [[2,3,4],[1,3,4],[1,2,4],[1,2,3]]
+@ xsort (sub2 [1,2,3,4]) == xsort [[3,4],[2,4],[2,3],[1,4],[1,3],[1,2]]
+@ xsort (sub3 [1,2,3,4]) == xsort [[4],[3],[2],[1]]
+@ xsort (sub1 "PROGRAM") == xsort ["ROGRAM","POGRAM","PRGRAM","PRORAM","PROGAM","PROGRM","PROGRA"]
