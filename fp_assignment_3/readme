@@ -35,6 +35,10 @@ To test an individual file use the `test_runner` shell script:
   "PASS"
   ...
 
+To Run All the tests you can use the included shell script:
+
+  shell> ./run_all_tests.sh
+
 
 Resources Used
 --------------

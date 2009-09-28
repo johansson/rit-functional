@@ -64,3 +64,5 @@ Works for summing because y is obtained from the second map, which is the multip
 
 >		split func [a,b] = func a b
 >		mul first second = [map (\y -> foldr (+) 0 y) (map (split (inner (*))) x) | x <- cross pair first (transpose second)]
+
+>		mul' first second = [map (foldr (+) 0) (map (split (inner (*))) x) | x <- cross pair first (transpose second)]
