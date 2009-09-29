@@ -13,7 +13,7 @@ Helper Functions
 > split f [x,y] = f x y
 
 > row :: [a] -> Int -> a
-> row matrix i = matrix !! i
+> row = (!!)
 
 > col :: [[a]] -> Int -> [a]
 > col matrix i = [ row !! i | row <- matrix ]
@@ -123,7 +123,7 @@ Below is the example of `mul [[1,2],[3,4]] [[5,6],[7,8]]`:
 Each step was broken down into easy to manage chunks:
 
 > mul :: (Num a) => [[a]] -> [[a]] -> [[a]]
-> mul m1 m2 = [ map sumInnards $ map multiplyLists x | x <- cross pair m1 (transpose m2) ]
+> mul m1 m2 = [ map (sumInnards . multiplyLists) x | x <- cross pair m1 (transpose m2) ]
 >     where multiplyLists list = split (inner (*)) list
 >           sumInnards    list = foldr (+) 0 list
 
