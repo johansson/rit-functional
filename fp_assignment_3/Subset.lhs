@@ -44,7 +44,7 @@ Generic Implementation followed by curried aliases.
 > sub3 :: (Eq a) => [a] -> [[a]]
 > sub3 = subn 3
 
-@ xsort (sub1 [1,2,3,4]) == xsort [[2,3,4],[1,3,4],[1,2,4],[1,2,3]]
-@ xsort (sub2 [1,2,3,4]) == xsort [[3,4],[2,4],[2,3],[1,4],[1,3],[1,2]]
-@ xsort (sub3 [1,2,3,4]) == xsort [[4],[3],[2],[1]]
-@ xsort (sub1 "PROGRAM") == xsort ["ROGRAM","POGRAM","PRGRAM","PRORAM","PROGAM","PROGRM","PROGRA"]
+@ sub1 [1,2,3,4] `xeq` [[2,3,4],[1,3,4],[1,2,4],[1,2,3]]
+@ sub2 [1,2,3,4] `xeq` [[3,4],[2,4],[2,3],[1,4],[1,3],[1,2]]
+@ sub3 [1,2,3,4] `xeq` [[4],[3],[2],[1]]
+@ sub1 "PROGRAM" `xeq` ["ROGRAM","POGRAM","PRGRAM","PRORAM","PROGAM","PROGRM","PROGRA"]
