@@ -3,10 +3,10 @@ Date: Friday September 25, 2009
 Description: Function Programming Assignment #2
 Haskell
 
-Data.List is included for `delete`.
+Data.List is included for `nub`.
 
 > module Subset where
-> import qualified Data.List hiding (transpose)
+> import qualified Data.List
 
 
 Helper Functions
@@ -19,7 +19,7 @@ Helper Functions
 > removeIndex i list
 >   | list == [] = []
 >   | i == 0     = removeIndex (i-1) (tail list)
->   | otherwise  = let (h:t) = list in h: removeIndex (i-1) t
+>   | otherwise  = let (h:t) = list in h : removeIndex (i-1) t
 
 @ flatten [[1],[2]] == [1,2]
 @ flatten [ [[1,2],[2,3]], [[4,5],[6,7]] ] == [[1,2],[2,3],[4,5],[6,7]]

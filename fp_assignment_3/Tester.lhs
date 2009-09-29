@@ -14,9 +14,9 @@ Pass an expression that should be True/False into tst and it will output
 > tst True  = "PASS"
 > tst False = "FAIL"
 
-@ (tst True) == "PASS"
-@ (tst False) == "FAIL"
 @ [] == []
+@ tst True  == "PASS"
+@ tst False == "FAIL"
 
 
 Sorting (When Order Doesn't Matter)
