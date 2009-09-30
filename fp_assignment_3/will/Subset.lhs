@@ -13,3 +13,8 @@ Using select from Select.lhs
 >		sub1 xs = sub 1 xs
 >		sub2 xs = sub 2 xs
 >		sub3 xs = sub 3 xs
+
+@ sub1 [1,2,3,4] =~= [[1,2,3],[1,2,4],[1,3,4],[2,3,4]]
+@ sub2 [1,2,3,4] =~= [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+@ sub3 [1,2,3,4] =~= [[1],[2],[3],[4]]
+@ sub1 "PROGRAM" =~= ["PROGRA","PROGRM","PROGAM","PRORAM","PRGRAM","POGRAM","ROGRAM"]

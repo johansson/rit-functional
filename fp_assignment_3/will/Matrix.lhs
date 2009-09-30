@@ -50,7 +50,10 @@ func to elements obtained from the loops.
 	CAREFUL! This has a bug, can you find it?
 		cross func a b = [[func x y | x <- a, y <- b]]
 
->		cross func a b = [[func x y | x <- a] | y <- b]
+	DAMN IT. I'm dyslexic.
+		cross func a b = [[func x y | x <- a] | y <- b]
+		
+>		cross func a b = [[func x y | y <- b] | x <- a]
 
 Matrix multiplcation
 
@@ -64,5 +67,20 @@ Works for summing because y is obtained from the second map, which is the multip
 
 >		split func [a,b] = func a b
 >		mul first second = [map (\y -> foldr (+) 0 y) (map (split (inner (*))) x) | x <- cross pair first (transpose second)]
-
 >		mul' first second = [map (foldr (+) 0) (map (split (inner (*))) x) | x <- cross pair first (transpose second)]
+
+@ split (+) [1,2] == 3
+@ split (-) [2,1] == 1
+@ add [[1,2],[3,4]] [[5,6],[7,8]] == [[6,8],[10,12]]
+@ pair 1 2 == [1,2]
+@ pair [1] [2] == [[1],[2]]
+@ inner pair [1,2,3] [4,5,6] == [[1,4],[2,5],[3,6]]
+@ inner (+) [1,2,3] [4,5,6] == [5,7,9]
+@ inner mplus [[1,2],[3,4]] [[5,6],[7,8]] == [[6,8],[10,12]]
+@ transpose [[1,2,3],[4,5,6]] == [[1,4],[2,5],[3,6]]
+@ transpose [[1,4],[2,5],[3,6]] == [[1,2,3],[4,5,6]]
+@ cross pair [1,2,3] [4,5,6] == [[[1,4],[1,5],[1,6]],[[2,4],[2,5],[2,6]],[[3,4],[3,5],[3,6]]]
+@ cross pair [[1,2],[3,4]] [[5,6],[7,8]] == [[[[1,2],[5,6]],[[1,2],[7,8]]],[[[3,4],[5,6]],[[3,4],[7,8]]]]
+@ mul [[1,2],[3,4]] [[5,6],[7,8]] == [[19,22],[43,50]]
+@ mul [[1,2,3]] [[4],[5],[6]] == [[32]]
+@ mul [[4],[5],[6]] [[1,2,3]] == [[4,8,12],[5,10,15],[6,12,18]]
