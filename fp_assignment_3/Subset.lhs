@@ -44,7 +44,7 @@ Generic Implementation followed by curried aliases.
 > sub3 :: (Eq a) => [a] -> [[a]]
 > sub3 = subn 3
 
-@ sub1 [1,2,3,4] `xeq` [[2,3,4],[1,3,4],[1,2,4],[1,2,3]]
-@ sub2 [1,2,3,4] `xeq` [[3,4],[2,4],[2,3],[1,4],[1,3],[1,2]]
-@ sub3 [1,2,3,4] `xeq` [[4],[3],[2],[1]]
-@ sub1 "PROGRAM" `xeq` ["ROGRAM","POGRAM","PRGRAM","PRORAM","PROGAM","PROGRM","PROGRA"]
+@ sub1 [1,2,3,4] =~= [[2,3,4],[1,3,4],[1,2,4],[1,2,3]]
+@ sub2 [1,2,3,4] =~= [[3,4],[2,4],[2,3],[1,4],[1,3],[1,2]]
+@ sub3 [1,2,3,4] =~= [[4],[3],[2],[1]]
+@ sub1 "PROGRAM" =~= ["ROGRAM","POGRAM","PRGRAM","PRORAM","PROGAM","PROGRM","PROGRA"]
