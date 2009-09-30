@@ -1,5 +1,5 @@
 # Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
-# Date: Friday September 25, 2009
+# Date: Wednesday September 30, 2009
 # Description: Functional Programming Assignment #3
 # Overview
 
@@ -7,11 +7,21 @@ Loops and Matrix Functions
 --------------------------
 
 The Haskell implementations of the assignment are included in their properly
-named module files:
+named module files.  Will's implementations are in a separate folder:
 
   + Matrix.lhs
   + Select.lhs
   + Subset.lhs
+  + will
+    + Matrix.lhs
+    + Select.lhs
+    + Subset.lhs
+
+For testing there are a few extra files:
+
+  + run_all_tests.sh (executable)
+  + test_runner (executable)
+  + Tester.lhs (testing library functions)
 
 
 Running Tests
@@ -38,6 +48,8 @@ To test an individual file use the `test_runner` shell script:
 To Run All the tests you can use the included shell script:
 
   shell> ./run_all_tests.sh
+
+By Default run_all_tests run all the tests verbosely.
 
 
 Resources Used

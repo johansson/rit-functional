@@ -1,6 +1,6 @@
 Author: Joseph Pecoraro
 Date: Saturday September 26, 2009
-Description: Function Programming Assignment #2
+Description: Function Programming Assignment #3
 Haskell Testing Suite
 
 > module Tester where

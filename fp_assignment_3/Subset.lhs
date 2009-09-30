@@ -1,6 +1,6 @@
 Author: Joseph Pecoraro
 Date: Friday September 25, 2009
-Description: Function Programming Assignment #2
+Description: Function Programming Assignment #3
 Haskell
 
 Data.List is included for `nub`.

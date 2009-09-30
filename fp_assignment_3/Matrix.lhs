@@ -1,6 +1,6 @@
 Author: Joseph Pecoraro
-Date: Friday September 25, 2009
-Description: Function Programming Assignment #2
+Date: Wednesday September 30, 2009
+Description: Function Programming Assignment #3
 Haskell
 
 > module Matrix where
