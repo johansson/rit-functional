@@ -1,0 +1,28 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Monday October 5, 2009
+# Description: Functional Programming Assignment #4
+# Overview
+
+Lambda Functions
+----------------
+
+The Lambda Function implementations for the assignment are in:
+
+  + lambdas.txt
+
+The Haskell data types assignment is in:
+
+  + TODO! FIXME! NEEDS FILE!!
+
+
+Resources Used
+--------------
+
+Our Reading Lists:
+
+  + http://www.cs.rit.edu/~jjp1820/fp/
+  + http://conquerant.org/Haskell.aspx
+
+Course Material, and More:
+
+  + http://en.wikipedia.org/wiki/Lambda_calculus

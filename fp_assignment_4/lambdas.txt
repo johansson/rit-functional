@@ -1,0 +1,63 @@
+$ author = (Joseph Pecoraro)
+$ date = ((Monday (October 5)) 2009)
+
+$ 0 = (lambda (f) (lambda (x) x))
+$ 1 = (lambda (f) (lambda (x) (f x)))
+$ 2 = (lambda (f) (lambda (x) (f (f x))))
+$ 3 = (lambda (f) (lambda (x) (f (f (f x)))))
+$ 4 = (lambda (f) (lambda (x) (f (f (f (f x))))))
+$ 5 = (lambda (f) (lambda (x) (f (f (f (f (f x)))))))
+$ 6 = (lambda (f) (lambda (x) (f (f (f (f (f (f x))))))))
+
+$ id = (lambda (x) x)
+$ true =  (lambda (x) (lambda (y) x))
+$ false = (lambda (x) (lambda (y) y))
+$ if-then-else = (lambda (cond) (lambda (then) (lambda (else) ((cond then) else))))
+$ isZero = (lambda (n) ((n (lambda (x) false)) true))
+
+$ repeat = (lambda (n) (lambda (x) ((n (lambda (g) (g x))) (lambda (y) y))))
+$ sum = (lambda (m) (lambda (n) (lambda (f) (lambda (x) ((m f) ((n f) x))))))
+$ Y = (lambda (y) ((lambda (x) (y (x x))) (lambda (x) (y (x x)))))
+
+
+
+$ and = (lambda (left) (lambda (right) ( (left right) false ) ) )
+$ or  = (lambda (left) (lambda (right) ( (left true) right )))
+$ not = (lambda (elem) ( (elem false) true) )
+
+(((if-then-else ((and true)  true))   PASS) FAIL)
+(((if-then-else ((and true)  false))  FAIL) PASS)
+(((if-then-else ((and false) true))   FAIL) PASS)
+(((if-then-else ((and false) false))  FAIL) PASS)
+
+(((if-then-else ((or true)  true))   PASS) FAIL)
+(((if-then-else ((or true)  false))  PASS) FAIL)
+(((if-then-else ((or false) true))   PASS) FAIL)
+(((if-then-else ((or false) false))  FAIL) PASS)
+
+(((if-then-else (not true))  FAIL) PASS)
+(((if-then-else (not false)) PASS) FAIL)
+
+
+
+$ pred = (lambda (n) (lambda (f) (lambda (x) (((n (lambda (g) (lambda (h) (h (g f))))) (lambda (u) x)) (lambda (u) u)) )))
+
+((repeat (pred 2)) hello)
+((repeat (pred 4)) hello)
+
+
+
+$ product = (lambda (m) (lambda (n) ( (n (sum m)) 0 ) ) )
+
+((repeat ((product 2) 5)) hello)
+((repeat ((product 5) 2)) hello)
+((repeat ((product 3) 4)) hello)
+((repeat ((product 6) 0)) hello)
+
+
+
+$ recsumhelper = (lambda (f) (lambda (n) (((if-then-else (isZero n)) 0) ((sum n) (f (pred n))))))
+$ Y = (lambda (y) ((lambda (x) (y (x x))) (lambda (x) (y (x x)))))
+$ recsum = (Y recsumhelper)
+
+((repeat (recsum ((product 3) 3))) hello)
