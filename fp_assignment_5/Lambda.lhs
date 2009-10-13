@@ -1,4 +1,4 @@
-Lambda Calculus Interpreter
+﻿Lambda Calculus Interpreter
 
 Will Johansson, Joseph Pecoraro
 
@@ -14,7 +14,13 @@ Definition stolen from Professor's solution for Week 4.
 
 > type Macros a = [Macro a]
 > data Macro a =  Tag [Macros a]
+
+Substitute a macro.
+
 > substitute :: Macros -> SExpr String -> SExpr String 
 > substitute a b = b
+
+Do beta reductions.
+
 > beta :: SExpr String -> SExpr String 
 > beta a = a
