@@ -1,0 +1,36 @@
+Author: Joseph Pecoraro
+Date: Wednesday October 14, 2009
+Description: Function Programming Assignment #5
+Haskell - Solution for Part (c)
+
+
+Given the Original SExpr:
+
+  (((lambda (x) (lambda (y) x)) y) foo)
+
+For clarity let me change the non-parameter y to y' to show its movement:
+
+  (((lambda (x) (lambda (y) x)) y') foo)
+  
+The first reduction that can be performed is the inner invocation:
+
+   ((lambda (x) (lambda (y) x)) y')
+
+Producing:
+
+   (lambda (y) y')
+
+Notice that the (y) parameter is NOT the same as the y' in the body. The real
+scoping is from the original equation. The body of this inner lambda was x,
+which was bound to y'. Thus the inner value is already bound and should not get
+rebound again from the inner lambda's (y).
+
+Taking a step back to the original equation with this first reduction we have:
+
+  ((lambda (y) y') foo)
+
+The binding is now clear. y is replaced with foo, but y is not used in the
+body. y' is left unaffected and the result is y':
+
+  y'
+
