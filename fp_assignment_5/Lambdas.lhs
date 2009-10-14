@@ -89,8 +89,8 @@ the act of binding (Left a) then stop if you meet a new Proc with (Left a).
 > bind _ _ x = x
 
 
-Now the real beta function. It encodes, runs the BoundSExpr beta reducer, then
-decodes into the result.
+Now the real beta function. It encodes into a BoundSExpr, runs the BoundSExpr
+beta reducer, then decodes into the result.
 
 > beta' :: SExpr String -> SExpr String
 > beta' sexpr = decode $ beta'' $ encode sexpr
@@ -106,6 +106,11 @@ decodes into the result.
 >   (Proc a b) -> beta'' $ Call (Proc a b) z
 >   other      -> Call other (beta'' z)
 > beta'' (Call x y) = Call x (beta'' y)
+
+I seem to have hit a snag requiring me to encode/decode portions in the middle
+of the reduction. This means that something that was bound before may end up
+becoming unbound later on. For that reason I'm stopping this implementation,
+because I can't come up with a workaround.
 
 
 Built-in Macros

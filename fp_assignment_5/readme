@@ -1,35 +1,33 @@
-README for Homework #5
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Wednesday October 14, 2009
+# Description: Functional Programming Assignment #5
+# Overview
 
-Will Johansson and Joseph Pecoraro
+Lambda Interpreter
+------------------
 
-3.) The S expression:
-	(((lambda (x) (lambda (y) x)) y) foo)
-				: foo bound to x, but:
-	 ((lambda (x) (lambda (y) x)) y)
-				: y applied to the anonymous
-				: function, returning (lambda (y) y),
-				: thus returning y
-	  (lambda (x) (lambda (y) x))
-				: anonymous function that returns
-				: (lambda (y) x)
-		      (lambda (y) x)
-				: anonymous function that returns x
+Our SExpr Datatype, Macros type, substitute and beta functions are defined
+in the Haskell file:
 
-	So you can see from above, you'll notice foo gets ignored because
-	later on, line:
+  + Lambdas.lhs
 
-		((lambda (x) (lambda (y) x)) y)
 
-	is executed and returns the function (lambda (y) y), which
-	returns only y.
+Questions
+---------
 
-	In other words, the beta-reduction has been performed, making
-	the above entire S expression simply express as (lambda (x) y).
+Our answer to Part (c) of the assignment is in:
 
-	This is similar to:
+  + part_c.txt
 
-		func1(x) { return func2(y) { return y; } }
 
-	reducing to:
+Resources Used
+--------------
 
-		func(x) { return y; }
+Our Reading Lists:
+
+  + http://www.cs.rit.edu/~jjp1820/fp/
+  + http://conquerant.org/Haskell.aspx
+
+Course Material, and More:
+
+  + http://en.wikipedia.org/wiki/Lambda_calculus

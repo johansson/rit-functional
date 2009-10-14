@@ -1,8 +1,10 @@
-Author: Joseph Pecoraro
-Date: Wednesday October 14, 2009
-Description: Function Programming Assignment #5
-Haskell - Solution for Part (c)
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Wednesday October 14, 2009
+# Description: Function Programming Assignment #5
+# Haskell - Solution for Part (c)
 
+Walkthrough
+-----------
 
 Given the Original SExpr:
 
@@ -14,11 +16,11 @@ For clarity let me change the non-parameter y to y' to show its movement:
   
 The first reduction that can be performed is the inner invocation:
 
-   ((lambda (x) (lambda (y) x)) y')
+  ((lambda (x) (lambda (y) x)) y')
 
 Producing:
 
-   (lambda (y) y')
+  (lambda (y) y')
 
 Notice that the (y) parameter is NOT the same as the y' in the body. The real
 scoping is from the original equation. The body of this inner lambda was x,
@@ -34,3 +36,16 @@ body. y' is left unaffected and the result is y':
 
   y'
 
+
+From A Different Angle
+----------------------
+
+The inner Lambda (lambda (y) x) can be though of as just eating away a
+argument, because it never ends up using that argument. Overall, the outer
+lambda consumes two arguments and returns the first. "y" is consumed first,
+and "foo" second.
+
+In other languages, this is similar to ignoring a second parameter.  For
+example in JavaScript:
+
+  function(x,y) { return x; }
