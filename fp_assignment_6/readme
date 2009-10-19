@@ -1,0 +1,76 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Monday October 19, 2009
+# Description: Functional Programming Assignment #6
+# Overview
+
+Lambda Interpreter
+------------------
+
+Data types, Lambda Operations, and other assignment details are
+found in the following Haskell files:
+
+  + Lambda.lhs
+    Interpreter given by the professor.
+
+  + LambdaTypes.lhs
+    Types given by professor.
+    Expanded to implement Show and Read.
+  
+  + Symbol.lhs
+    A Symbol data type that implements Show and Read.
+  
+  + Assignment.lhs
+    Pulls everything together, includes the run() function,
+    helpful macros, and statements to test.
+  
+  + Tester.lhs
+    Our testing library, carried over from Assignment #3.
+
+
+How To Run
+----------
+
+The Assignment.lhs file is meant to nicely pull everything in together
+so you can test easily with:
+
+  shell> ghci Assignment.lhs
+
+Note that the functions "macros", "s1", "s2", "s3", and "s4" are
+available to easily test.
+
+
+Running Tests
+-------------
+
+We developed a simple testing script. Inside the Literate Haskell Files if you
+include a line starting with "@" it is interpreted as a test line! The line
+should be believed to evaluate to `True`.
+
+The tests are loaded with our Tester.lhs library.  It includes a couple very,
+very basic test functions.
+
+To test an individual file use the `test_runner` shell script:
+
+  shell> ./test_runner 
+  usage: test_runner [-v] fileName
+  	-v	echos the test script to the console
+
+  shell> ./test_runner Assignment.lhs 
+  "PASS"
+  "PASS"
+  
+
+Resources Used
+--------------
+
+Our Reading Lists:
+
+  + http://www.cs.rit.edu/~jjp1820/fp/
+  + http://conquerant.org/Haskell.aspx
+
+Course Material, and More:
+
+  + http://en.wikipedia.org/wiki/Lambda_calculus
+  + http://haskell.org/tutorial/stdclasses.html#sect8.3
+  + IRC Channel => irc://irc.freenode.net/#haskell
+  
