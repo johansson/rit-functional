@@ -26,6 +26,19 @@ found in the following Haskell files:
   + Tester.lhs
     Our testing library, carried over from Assignment #3.
 
+Other Included Files:
+
+  + test_runner
+    Script to test a haskell file.  Explained below.
+  
+  + readme
+    This file!
+
+Note that there is an "old" folder containing an implementation where SExpr
+itself was implemented as an instance of Show and Read. However, that approach
+is not as convenience as the LExpr approach. Also, the interpreter provided in
+that version was slightly modified and no longer reduces perfectly.
+
 
 How To Run
 ----------
