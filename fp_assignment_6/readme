@@ -48,8 +48,14 @@ so you can test easily with:
 
   shell> ghci Assignment.lhs
 
-Note that the functions "macros", "s1", "s2", "s3", "s4", "ms1",
-"ms2", "ms3", and "ms4" are available to easily test.  For instance:
+Note that the functions "macros", "s1"-"s5" and "ms1"-"ms5" are available to
+easily test:
+
+  macros = all the macros you'll ever need!
+  s#     = just statements
+  ms#    = (macros ++ s#) for convenience
+
+For example:
 
   ghci> run (macros++s1)
   [this,that]

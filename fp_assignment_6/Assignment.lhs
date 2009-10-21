@@ -59,7 +59,10 @@ Testing Code
 >               " pred = (lambda (n) (((n (lambda (p) (lambda (z) ((z (succ (p true))) (p true))))) (lambda (z) ((z 0) 0))) false)) ",
 >               " sum = (lambda (m) (lambda (n) (lambda (f) (lambda (x) ((m f) ((n f) x)))))) ",
 >               " product = (lambda (m) (lambda (n) (lambda (f) (m (n f))))) ",
->               " isZero = (lambda (n) ((n (lambda (x) false)) true)) "]
+>               " isZero = (lambda (n) ((n (lambda (x) false)) true)) ",
+>               " G = (lambda (f) (lambda (n) (((ifThenElse (isZero n)) 1) ((product n) (f (pred n)))))) ",
+>               " Y = (lambda (y) ((lambda (x) (y (x x))) (lambda (x) (y (x x))))) ",
+>               " factorial = (Y G) "]
 
 
 > -- Basic ifThenElse statements [PASS]
@@ -85,12 +88,15 @@ Testing Code
 > s4 = [" (((ifThenElse (isZero 0)) this) that) ",
 >       " (((ifThenElse (isZero 1)) this) that) " ]
 
+> -- Recursive Test [...]
+> s5 = [" ((repeat (factorial ((product 2) 2))) hello) "]
 
 > -- Combined
 > ms1 = macros ++ s1
 > ms2 = macros ++ s2
 > ms3 = macros ++ s3
 > ms4 = macros ++ s4
+> ms5 = macros ++ s5
 
 
 Tests for the sets of statements:
@@ -98,3 +104,6 @@ Tests for the sets of statements:
 @ run ms2 == (read "[(lambda (x) x), hello, (hello hello), ((hello hello) hello)]"::[LExpr Symbol])
 @ run ms3 == (read "[(hello hello),((hello hello) hello),hello,((((hello hello) hello) hello) hello),(((((hello hello) hello) hello) hello) hello)]"::[LExpr Symbol])
 @ run ms4 == (read "[this, that]"::[LExpr Symbol])
+
+This one takes a while:
+@ run ms5 == (read "[(((((((((((((((((((((((hello hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello)]"::[LExpr Symbol])
