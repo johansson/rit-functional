@@ -88,8 +88,9 @@ Testing Code
 > s4 = [" (((ifThenElse (isZero 0)) this) that) ",
 >       " (((ifThenElse (isZero 1)) this) that) " ]
 
-> -- Recursive Test [...]
+> -- Recursive Test [PASS]
 > s5 = [" ((repeat (factorial ((product 2) 2))) hello) "]
+
 
 > -- Combined
 > ms1 = macros ++ s1
