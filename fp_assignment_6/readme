@@ -9,20 +9,20 @@ Lambda Interpreter
 Data types, Lambda Operations, and other assignment details are
 found in the following Haskell files:
 
-  + Lambda.lhs
+  + LambdaOps.lhs
     Interpreter given by the professor.
 
   + LambdaTypes.lhs
-    Types given by professor.
-    Expanded to implement Show and Read.
-  
+    SExpr and Macros Types given by professor.
+    LExpr is a new wrapper Type implementing Show and Read.
+
   + Symbol.lhs
     A Symbol data type that implements Show and Read.
-  
+
   + Assignment.lhs
     Pulls everything together, includes the run() function,
     helpful macros, and statements to test.
-  
+
   + Tester.lhs
     Our testing library, carried over from Assignment #3.
 
@@ -35,8 +35,29 @@ so you can test easily with:
 
   shell> ghci Assignment.lhs
 
-Note that the functions "macros", "s1", "s2", "s3", and "s4" are
-available to easily test.
+Note that the functions "macros", "s1", "s2", "s3", "s4", "ms1",
+"ms2", "ms3", and "ms4" are available to easily test.  For instance:
+
+  ghci> run (macros++s1)
+  [this,that]
+
+  ghci> run ms1 -- same as above but macros already combined
+  [this,that]
+
+Note that the output is of type [LExpr Symbol], which is why it Shows so
+nicely. You can read an individal (non-macro) statement into its LExpr Showable
+form or SExpr raw form:
+
+  ghci> read (head s1) :: LExpr Symbol
+  (((ifThenElse true) this) that)
+
+  ghci> r (head s1) -- or -- dump $ (read (head s1)::LExpr Symbol)
+  Call (Call (Call (Name ifThenElse) (Name true)) (Name this)) (Name that)
+
+Combining the two you can do:
+
+  ghci> map dump $ run (macros++s1)
+  [Name this,Name that]
 
 
 Running Tests
@@ -51,14 +72,15 @@ very basic test functions.
 
 To test an individual file use the `test_runner` shell script:
 
-  shell> ./test_runner 
+  shell> ./test_runner
   usage: test_runner [-v] fileName
-  	-v	echos the test script to the console
+    -v  echos the test script to the console
 
-  shell> ./test_runner Assignment.lhs 
+  shell> ./test_runner Assignment.lhs
   "PASS"
   "PASS"
-  
+  ...
+
 
 Resources Used
 --------------
@@ -73,4 +95,3 @@ Course Material, and More:
   + http://en.wikipedia.org/wiki/Lambda_calculus
   + http://haskell.org/tutorial/stdclasses.html#sect8.3
   + IRC Channel => irc://irc.freenode.net/#haskell
-  

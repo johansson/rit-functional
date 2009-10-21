@@ -13,50 +13,32 @@ Macros
 > type Macros a = [(a, SExpr a)]
 
 
-SExpr Data Type
----------------
+Lambdas
+-------
 
-A raw SExpr Data Type including the fundamentals
-  - Name = variable
-  - Proc = procedure declaration
-  - Call = invocation
-
-> data (Eq a, Show a) => SExpr a =
+> data (Eq a, Show a, Read a) => SExpr a =
 >   Name a |
 >   Proc a (SExpr a) |
 >   Call (SExpr a) (SExpr a)
->   deriving (Eq, Show)
-
-
-LExpr - Thin Wrapper
---------------------
-
-LExpr wraps an SExpr with Show/Read characteristics.
-
-> newtype LExpr a = L (SExpr a) deriving (Eq)
-
+>   deriving (Eq)
 
   Showing a Lambda.
     Name "x"     => x
     Proc "x" y   => (lambda (x) y)
     Call x y     => (x y)
 
-> instance (Eq a, Show a) => Show (LExpr a) where
->   showsPrec _ (L x) = showsSExpr x
+> instance (Eq a, Show a, Read a) => Show (SExpr a) where
+>   showsPrec _ x = showsSExpr x
 
 > showsSExpr (Name a)        = shows a
 > showsSExpr (Proc a body)   = ("(lambda ("++) . shows a . (") "++) . showsSExpr body . (')':)
 > showsSExpr (Call expr arg) = ('(':) . showsSExpr expr . (' ':) . showsSExpr arg . (')':)
 
-
-
   Reading a Lambda.
-  usage: ghci> readsSExpr "(lambda (x) y)" :: [(SExpr Symbol, String)]
-         ghci> read "(lambda (x) y)" :: LExpr Symbol
-         ghci> dump $ (read "(lambda (x) y)" :: LExpr Symbol) --$ hilite fix --
-
-> instance (Eq a, Show a, Read a) => Read (LExpr a) where
->   readsPrec _ s = map (\(a,b) -> (L a, b)) (readsSExpr s)
+  usage: ghci> read "(lambda (x) y)" :: SExpr Symbol
+  
+> instance (Eq a, Show a, Read a) => Read (SExpr a) where
+>   readsPrec _ s = readsSExpr s
 
 > readsSExpr :: (Eq a, Show a, Read a) => ReadS (SExpr a)
 > readsSExpr s = [(Proc a body, x)    | ("(", t)      <- lex s,
