@@ -259,7 +259,7 @@ j3: [(["Sandy"],[3021]),(["Tina"],[3012,3671]),(["Joanne"],[3008]),(["Eileen"],[
 > ascending f cont = \a b -> if (f a) == (f b) then a `cont` b else (f a) < (f b)
 
 > descending :: (Ord b) => (a -> b) -> (a -> a -> Bool) -> a -> a -> Bool
-> descending f cont = \a b -> if (f a) == (f b) then a `cont` b else (f a) < (f b) 
+> descending f cont = \a b -> if (f a) == (f b) then a `cont` b else (f a) > (f b) 
 
 @ l1 == ["Jason","Sam","James"]
-@ l2 == [("Christina",3022),("Eileen",3005),("Joanne",3008),("Liane",3022),("Sandy",3021),("Tina",3012),("Tina",3671)]
+@ l2 == [("Christina",3022),("Eileen",3005),("Joanne",3008),("Liane",3022),("Sandy",3021),("Tina",3671),("Tina",3012)]
