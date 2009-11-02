@@ -12,6 +12,9 @@ b. The continuation monad can take the place of continuation passing:
 >   Cont c >>= f =
 >     Cont (\k -> c (\a -> let Cont cc = f a in cc k) )
 
+> Cont c = do x <- return (3+2)
+>             return (4*x)
+
 Database stuff for (c)
 
 > staff :: [Person]
@@ -75,11 +78,17 @@ which is close to what we need, jus except the key, the predicate... :\
 This compiles, but complains because it couldn't match expected m Bool with inferred Bool,
 which makes sense, since isMale is not a -> m Bool, so what to do?
 
-> fromC :: (Monad m) => [a] -> (a -> m Bool) -> m [a]
-> fromC db pred = do filterM pred db
+fromC :: (Monad m) => [a] -> (a -> m Bool) -> m [a]
 
-> -- whichC ::
-> -- whichC
+> fromC :: [a] -> (Cont r a) -> [a]
+> fromC db cont = db
 
-> q1 = return        :: t -> Cont u t
-> -- q2 = whichC isMale :: [Person] -> Cont u [Person]
+whichC :: (a -> Bool) -> [a]
+
+> whichC pred = []
+
+> q1 :: t -> Cont u t
+> q1 = return
+
+> q2 :: [Person] -> Cont u [Person]
+> q2 = whichC isMale
