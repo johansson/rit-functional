@@ -11,8 +11,32 @@ This module contains functions which operate on LambdaTypes.
 > import LambdaLExpr
 > import LambdaParse
 > import LambdaTypes
-> import Monad
-> import Control.Monad.State
+
+
+State Monad
+-----------
+
+> data State a = State (Int -> (a, Int))
+> instance Monad State where
+>   return x = State (\c -> (x, c))
+>   State m >>= f = State (\c ->
+>     case m c of { (a, acount) ->
+>       case f a of State b -> b acount})
+
+> getState = State (\c -> (c, c))
+> putState count = State (\_ -> ((), count))
+> increment = do c <- getState
+>                putState (c+1)
+
+> getData (State f) = f 0
+> getPayload = fst . getData
+
+rswa [] "(lambda (x) y)"
+runAlpha [] 0 . rsw [] "(lambda (x) y)"
+runAlpha bound cnt sexpr = getData (alpha bound sexpr)
+runRun macros = L . unwrap . 
+rswab'uls macros = show . runRun macros
+
 
 We need to create macros for Scheme-like notation:
 
@@ -35,16 +59,22 @@ Note that 'macros' have to be '([] :: [(Symbol, LExpr Symbol)])'.
 > rsw macros = wrap . rs macros
 
 > -- and make all names unique
-> rswa :: (Num a) => LMacros Symbol -> String -> (a, SExpr (a, Symbol))
-> rswa macros = alpha [] 0 . rsw macros
+> -- rswa :: LMacros Symbol -> String -> State (SExpr (Int, Symbol))
+> rswa macros = alpha [] . rsw macros
+
+> -- perform beta reductions and remove state
+> rswab' macros = getPayload . run macros where
+>     run macros str = do sexpr <- (alpha [] $ rsw macros str)
+>                         (x,_) <- beta sexpr
+>                         return x
 
 > -- and perform all beta reductions
-> rswab :: (Num a) => LMacros Symbol -> String -> (SExpr (a, Symbol), a, Bool)
-> rswab macros = uncurry beta . rswa macros
+> -- rswab :: (Num a) => LMacros Symbol -> String -> (SExpr (a, Symbol), a, Bool)
+> -- rswab macros = curry beta . rswa macros
 
 > -- and remove state
-> rswab' :: (Num t) => LMacros Symbol -> String -> SExpr (t, Symbol)
-> rswab' macros = (\(x, _, _) -> x) . rswab macros
+> -- rswab' :: (Num t) => LMacros Symbol -> String -> SExpr (t, Symbol)
+> -- rswab' macros = (\(x, _, _) -> x) . rswab macros -- \)
 
 > -- and make names ambiguous again
 > rswab'u :: LMacros Symbol -> String -> SExpr Symbol
@@ -104,43 +134,40 @@ Implemented by structural induction on the s-expression;
 each parameter and its new value is pushed onto the bindings
 and the count is always incremented.
 
-> count' :: State Int Int
-> count' = do
-> 			n <- get
-> 			put (n+1)
-> 			return n
-
-> addone :: Int -> Int
-> addone n = execState count' n
-
 - alpha :: (Num a, Eq t, Show t) =>
              [((a, t), (a, t))] -> a -> LExpr (a, t) -> (a, LExpr (a, t))
 
-> alpha bound count (Proc parm@(_,p) body) = (newCount, Proc newParm newBody) where
->   newParm             = (count+1, p)
->   (newCount, newBody) = alpha ((parm, newParm) : bound) (count+1) body
+             
+> alpha bound (Proc parm@(_,p) body) =
+>   do increment
+>      c <- getState
+>      newBody <- alpha ((parm, (c, p)):bound) body
+>      return (Proc (c, p) newBody)
 
-> alpha bound count (Name name@(c,n)) = case dropWhile ((name /=).fst) bound of
->   ((parm, newParm) : _) -> (count, Name newParm)
->   []                    -> (count, Name name) -- free
+> alpha bound (Name name@(c,n)) = 
+>   case dropWhile ((name /=).fst) bound of
+>     ((parm, newParm):_) -> return (Name newParm)
+>     []                  -> return (Name name)
 
-> alpha bound count (Call proc arg) = (newCount, Call newProc newArg) where
->   (nextCount, newProc) = alpha bound count proc
->   (newCount, newArg)   = alpha bound nextCount arg
+> alpha bound (Call proc arg) =
+>   do newProc <- alpha bound proc
+>      newArg  <- alpha bound arg
+>      return (Call newProc newArg)
 
-USING THE NEW COUNT (COUNT')
 
-> alpha' bound count (Proc parm@(_,p) body) = (newCount, Proc newParm newBody) where
->   newParm             = (count+1, p)
->   (newCount, newBody) = alpha ((parm, newParm) : bound) (count+1) body
+--------------------------------------------------------------------------------
+alpha bound count (Proc parm@(_,p) body) = (newCount, Proc newParm newBody) where
+  newParm             = (count+1, p)
+  (newCount, newBody) = alpha ((parm, newParm) : bound) (count+1) body
 
-> alpha' bound count (Name name@(c,n)) = case dropWhile ((name /=).fst) bound of
->   ((parm, newParm) : _) -> (count, Name newParm)
->   []                    -> (count, Name name) -- free
+alpha bound count (Name name@(c,n)) = case dropWhile ((name /=).fst) bound of
+  ((parm, newParm) : _) -> (count, Name newParm)
+  []                    -> (count, Name name) -- free
 
-> alpha' bound count (Call proc arg) = (newCount, Call newProc newArg) where
->   (nextCount, newProc) = alpha bound count proc
->   (newCount, newArg)   = alpha bound nextCount arg
+alpha bound count (Call proc arg) = (newCount, Call newProc newArg) where
+  (nextCount, newProc) = alpha bound count proc
+  (newCount, newArg)   = alpha bound nextCount arg
+--------------------------------------------------------------------------------
 
 beta count s-expression
 substitutes the argument for a parameter in a procedure call,
@@ -153,13 +180,40 @@ recurses into call but not into argument, recurses after substitution.
 - beta :: (Num t, Eq t1, Show t1) =>
             t -> LExpr (t, t1) -> (LExpr (t, t1), t, Bool)
 
-> beta count  var@(Name _)        = (var,  count,  False)
-> beta count proc@(Proc _ _)      = (proc, count,  False)
-> beta count      (Call proc arg) = if true then beta c e else result where
->   result@(e, c, true) = case beta count proc of
->     (Proc parm body, count1, _) -> (expr, count2, True) where
->       (count2, expr) = sub count1 body parm arg
->     (expr, count1, tf)          -> (Call expr arg, count1, tf)
+
+> beta   var@(Name _)        = return (var, False)
+> beta  proc@(Proc _ _)      = return (proc, False)
+> beta       (Call proc arg) = do x <- beta proc
+>                                 case x of
+>                                   (Proc parm body, _) -> (beta ((fst.getData)(sub body parm arg)))
+>                                   (expr, tf) -> if tf then (beta expr) else return (Call expr arg, tf)
+
+
+ beta       (Call proc arg) = if true then (beta e) else return result where
+    result@(e, true) = case (beta proc) of
+      (State f) -> case f 0 of
+        (Proc parm body, _) -> ((fst.getData) (sub body parm arg), True)
+        (expr, tf)          -> (Call expr arg, tf)
+
+
+beta count  var@(Name _)        = (var,  count,  False)
+beta count proc@(Proc _ _)      = (proc, count,  False)
+beta count      (Call proc arg) = if true then beta c e else result where
+  result@(e, c, true) = case beta count proc of
+    (Proc parm body, count1, _) -> (expr, count2, True) where
+      (count2, expr) = sub count1 body parm arg
+    (expr, count1, tf)          -> (Call expr arg, count1, tf)
+
+
+--------------------------------------------------------------------------
+beta count  var@(Name _)        = (var,  count,  False)
+beta count proc@(Proc _ _)      = (proc, count,  False)
+beta count      (Call proc arg) = if true then beta c e else result where
+  result@(e, c, true) = case beta count proc of
+    (Proc parm body, count1, _) -> (expr, count2, True) where
+      (count2, expr) = sub count1 body parm arg
+    (expr, count1, tf)          -> (Call expr arg, count1, tf)
+--------------------------------------------------------------------------
 
 sub count s-expression parm arg
 substitutes an alpha-converted arg for each parm in the s-expression,
@@ -170,15 +224,43 @@ Implemented by structural induction on the s-expression.
 - sub :: (Num a, Eq t, Show t) =>
            a -> LExpr (a, t) -> (a, t) -> LExpr (a, t) -> (LExpr (a, t), a)
 
-> sub count expr parm arg = s count expr where
->   s count var@(Name name)
->     | name == parm  = alpha [] count arg
->     | otherwise     = (count, var)
+> sub expr parm arg = s expr where
+>   s var@(Name name)
+>     | name == parm = alpha [] arg
+>     | otherwise    = return var
+> 
+>   s (Call proc arg) =
+>     do proc1 <- s proc
+>        arg1  <- s arg
+>        return (Call proc1 arg1)
+> 
+>   s (Proc name body) =
+>     do body1 <- s body
+>        return (Proc name body1)
 
->   s count (Call proc arg)  = (count2, Call proc1 arg1) where
->     (count1, proc1) = s count proc
->     (count2, arg1)  = s count1 arg
-  
->   s count (Proc name body) = (count1, Proc name body1) where
->     (count1, body1) = s count body
+sub count expr parm arg = s count expr where
+  s count var@(Name name)
+    | name == parm  = (0, fst (runAlpha [] count arg))
+    | otherwise     = (count, var)
+
+  s count (Call proc arg)  = (count2, Call proc1 arg1) where
+    (count1, proc1) = s count proc
+    (count2, arg1)  = s count1 arg
+
+  s count (Proc name body) = (count1, Proc name body1) where
+    (count1, body1) = s count body
+
+--------------------------------------------------------------------------
+sub count expr parm arg = s count expr where
+  s count var@(Name name)
+    | name == parm  = alpha [] count arg
+    | otherwise     = (count, var)
+
+  s count (Call proc arg)  = (count2, Call proc1 arg1) where
+    (count1, proc1) = s count proc
+    (count2, arg1)  = s count1 arg
+
+  s count (Proc name body) = (count1, Proc name body1) where
+    (count1, body1) = s count body
+--------------------------------------------------------------------------
 

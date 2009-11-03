@@ -1,6 +1,6 @@
 This module contains functions which operate on LambdaTypes.
 
-> module LambdaOps where
+> module LambdaOpsOld where
 > import LambdaLExpr
 > import LambdaParse
 > import LambdaTypes
