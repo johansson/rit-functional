@@ -34,6 +34,10 @@ module, and you can run the pre-built test function `main`:
   that
   ...
 
+Testing is described below but you can use test_runner like so:
+
+  shell> ./test_runner Lambda.lhs
+
 
 Part (b-h) Continuations
 ------------------------
@@ -42,9 +46,13 @@ The rest of the assignment is packed inside:
 
   + Assignment.lhs
 
-See below for testing. Otherwise you can load the file as usual:
+You can load the file as usual:
 
   shell> ghci Assignment.lhs
+
+Testing is described below but you can use test_runner like so:
+
+  shell> ./test_runner Assignment.lhs
 
 
 Running Tests

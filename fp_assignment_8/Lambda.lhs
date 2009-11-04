@@ -96,3 +96,16 @@ recursion:
 >       " factorial = (Y nfact) "]
 
 > e8 = [" ((repeat (factorial ((product 2) 2))) hello) "]
+
+
+The Awesome Tests (Results pre-generated from LambdaOpsOld)
+-----------------------------------------------------------
+
+@      rswab'uls m8  e1 == "b"
+@ map (rswab'uls m8) e2 == ["this","that"]
+@ map (rswab'uls m8) e3 == ["(lambda (x) x)","hello","(hello hello)","((hello hello) hello)"]
+@ map (rswab'uls m8) e4 == ["(hello hello)"]
+@ map (rswab'uls m8) e5 == ["((hello hello) hello)","hello"]
+@ map (rswab'uls m8) e6 == ["((((hello hello) hello) hello) hello)","(((((hello hello) hello) hello) hello) hello)"]
+@ map (rswab'uls m8) e7 == ["this","that"]
+@ map (rswab'uls m8) e8 == ["(((((((((((((((((((((((hello hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello) hello)"]
