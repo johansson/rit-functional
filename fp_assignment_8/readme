@@ -1,0 +1,80 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Tuesday November 3, 2009
+# Description: Functional Programming Assignment #8
+# Overview
+
+Part (a) Lambda Interpreter with Monads
+---------------------------------------
+
+For Part (a) all the new code is heavily noted and documented inside:
+
+  + LambdaOps.lhs
+
+Other files carried over for the interpreter or to test with are:
+
+  + Lambda.lhs
+    Contains the sample lambda code to run
+  + LambdaOpsOld.lhs
+    Contains the old implementation (to test against).
+  + LambdaLExpr.lhs
+  + LambdaLex.lhs
+  + LambdaParse.lhs
+  + LambdaParsec.lhs
+  + LambdaParsing.lhs
+  + LambdaTypes.lhs
+  + Parsing.lhs
+  
+To run and test Part (a) you can load up Lambda, which uses our LambaOps
+module, and you can run the pre-built test function `main`:
+
+  shell> ghci Lambda
+  ghci> main
+  b
+  this
+  that
+  ...
+
+
+Part (b-h) Continuations
+------------------------
+
+The rest of the assignment is packed inside:
+
+  + Assignment.lhs
+
+See below for testing. Otherwise you can load the file as usual:
+
+  shell> ghci Assignment.lhs
+
+
+Running Tests
+-------------
+
+We developed a simple testing script. Inside the Literate Haskell Files if you
+include a line starting with "@" it is interpreted as a test line! The line
+should be believed to evaluate to `True`.
+
+The tests are loaded with our Tester.lhs library.  It includes a couple very,
+very basic test functions.
+
+To test an individual file use the `test_runner` shell script:
+
+  shell> ./test_runner
+  usage: test_runner [-v] fileName
+    -v  echos the test script to the console
+
+  shell> ./test_runner Assignment.lhs
+  "PASS"
+  "PASS"
+  ...
+
+
+Resources Used
+--------------
+
+Our Reading Lists and the Haskell IRC channel for some
+questions on Monads (specifically Cont):
+
+  + http://www.cs.rit.edu/~jjp1820/fp/
+  + http://conquerant.org/Haskell.aspx
+  + irc://irc.freenode.net/#haskell
