@@ -1,0 +1,54 @@
+#!/bin/bash
+# Author: Joseph Pecoraro
+# Date: Saturday, September 26, 2009
+# Description: Run Haskell Tests
+
+#
+# Testing a Haskell File is as Follows:
+#   - loads the Tester.lhs test library
+#   - loads the Provided Haskell File
+#   - extract all lines starting with "@" from the Haskell File
+#   - prepend "tst $ " to all those lines
+#   - run the lines through ghci
+#
+
+# Usage
+usage="usage: `basename $0` [-v] fileName\n\t-v\techos the test script to the console";
+
+if [[ $# -eq 0 ]]; then
+	echo -e $usage;
+	exit 1;
+fi
+
+# Interpreter
+GHCI='ghci -v0'
+ECHO='cat' # defaults to off
+
+# Variables
+FILE=$1
+TESTLIB='Tester.lhs'
+
+# Echo Mode
+if [[ $1 == "-v" ]]; then
+  ECHO='tee /dev/tty'
+  FILE=$2
+fi
+
+# Check File Exists
+if [[ ! -e $FILE ]]; then
+  echo "error: $FILE: No such file";
+  echo -e $usage;
+  exit 1;
+fi
+
+# Run Test
+{
+  if [[ $FILE == "Tester.lhs" ]]; then
+    echo ":load $TESTLIB";
+  else
+    echo ":load $FILE $TESTLIB";
+    echo ":m + Tester";
+  fi
+  cat $FILE | grep '^@ ' | sed 's/@ /tst $ /';
+  echo
+} | $ECHO | $GHCI
