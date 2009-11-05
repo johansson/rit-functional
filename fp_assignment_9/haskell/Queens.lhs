@@ -14,7 +14,7 @@ which do not clash with diagonals.
 > choices [[dim], rows, ups, downs] = [r | r <- [1..dim], safe r]
 >   where
 >     col = length rows + 1
->     safe row = row `notElem` rows 
+>     safe row = row `notElem` rows
 >                && (row-col) `notElem` ups
 >                && (row+col) `notElem` downs
 

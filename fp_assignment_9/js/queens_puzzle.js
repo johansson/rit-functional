@@ -22,7 +22,7 @@ QueensPuzzle.prototype = {
 
     choices: function() {
         var keys = {};
-        for (var i=0; i<this.dim; ++i)
+        for (var i=1; i<=this.dim; ++i) // NOTE: 1..dim inclusive
             if (this.safe(i))
                 keys[i] = i;
         return keys;
@@ -33,9 +33,9 @@ QueensPuzzle.prototype = {
         var newRows = this.rows.slice(0);
         var newUps = this.ups.slice(0);
         var newDowns = this.downs.slice(0);
-        newRows.push(row);
-        newUps.push(row-col);
-        newDowns.push(row+col);
+        newRows.unshift(row);                 // NOTE: unshift is inefficient
+        newUps.unshift(row-col);              // but its like cons in Haskell
+        newDowns.unshift(row+col);            // and its nice to have equal output
         return new QueensPuzzle(this.dim, newRows, newUps, newDowns);
     },
 

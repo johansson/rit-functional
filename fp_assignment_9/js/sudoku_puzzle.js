@@ -20,17 +20,15 @@ SudokuPuzzle.prototype = {
     choices: function() {
         var keys = {}, keyCount = 0;
         for (var i=0, len=this.board.length; i<len; ++i) {
-            if (this.board[i] === 0) {
+            if (this.board[i] === 0) { // find the first open position
                 var choicesForPosition = this.choicesForPosition(i);
-                if (choicesForPosition.length === 0)
-                    return {}; // cannot solve from here
                 for (var j=0; j<choicesForPosition.length; ++j)
                     keys[keyCount++] = choicesForPosition[j];
                 return keys;
             }
         }
 
-        return keys;
+        return keys; // no moves at this point
     },
 
     choose: function(choice) {

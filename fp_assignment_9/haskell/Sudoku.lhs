@@ -35,7 +35,7 @@ positions in the context.
 
 > choices board = choicesForPosition p (p `div` 9) (p `mod` 9) where
 >     p = firstWhere (==0) board
-> 
+>
 >     choicesForPosition (-1) _ _ = []
 >     choicesForPosition position row col = openValues where
 >         theRow   = take 9 [(row*9)..]
@@ -82,11 +82,11 @@ Sample Board from => http://www.cs.rit.edu/~ats/fp-2009-1/9/Problems.lhs
 > sudoku = [ 0, 4, 6,  0, 0, 0,  8, 9, 0,
 >            0, 7, 0,  4, 0, 9,  0, 1, 0,
 >            5, 0, 0,  0, 8, 0,  0, 0, 6,
->            
+>
 >            0, 0, 3,  9, 0, 8,  6, 0, 0,
 >            9, 0, 0,  0, 0, 0,  0, 0, 2,
 >            0, 0, 8,  5, 0, 2,  1, 0, 0,
->            
+>
 >            4, 0, 0,  0, 5, 0,  0, 0, 3,
 >            0, 2, 0,  1, 0, 6,  0, 7, 0,
 >            0, 9, 7,  0, 0, 0,  5, 2, 0 ] :: [Int]
