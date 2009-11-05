@@ -10,7 +10,7 @@
 
 function solve (puzzle) {
   if (puzzle.solved()) return puzzle;
-  
+
   var result, choices = puzzle.choices();
   for (var choice in choices)
     if (result = solve(puzzle.choose(choices[choice]))) return result;
