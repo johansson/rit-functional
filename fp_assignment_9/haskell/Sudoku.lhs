@@ -4,7 +4,6 @@ Description: Functional Programming Assignment #9
 Haskell
 
 > module Sudoku where
-> import List
 
 Represent a sudoku puzzle as a single list of 81 positions,
 where positions 0..8 are row 1, 9..17 are row 2, etc. The
