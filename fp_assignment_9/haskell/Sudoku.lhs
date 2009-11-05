@@ -4,6 +4,7 @@ Description: Functional Programming Assignment #9
 Haskell
 
 > module Sudoku where
+> import List
 
 Represent a sudoku puzzle as a single list of 81 positions,
 where positions 0..8 are row 1, 9..17 are row 2, etc. The
@@ -22,25 +23,21 @@ not set a value unless it was legal).
 Choices
 -------
 
-Find the first non-set position and find all possible moves
+Find the first non-set position (==0) and find all possible moves
 for that position.  Moves are of the form:
 
     (position, possibleValue)
 
-To determine possible values you must look at the position's
-context. Which includes the Row, Column, and Shape that
-position is in.
- 
+To determine possible values you must look at the position's context.
+The context includes the Row, Column, and Shape that position is in.
+The possible values are the values from 1-9 that do not occur in other
+positions in the context.
 
-> choices board = findOpenPosition 0 board
->   where
->     findOpenPosition _ [] = []
->     findOpenPosition p (x:xs) = case x of
->       0 -> choicesForPosition p (p `div` 9) (p `mod` 9)
->       _ -> findOpenPosition (p+1) xs
->
->     choicesForPosition position row col = openValues
->       where
+> choices board = choicesForPosition p (p `div` 9) (p `mod` 9) where
+>     p = firstWhere (==0) board
+> 
+>     choicesForPosition (-1) _ _ = []
+>     choicesForPosition position row col = openValues where
 >         theRow   = take 9 [(row*9)..]
 >         theCol   = take 9 [col,(col+9)..]
 >         theShape = take 9 $ genShape ((theLowRow*9)+theLowCol)
@@ -48,17 +45,32 @@ position is in.
 >         theLowCol = [0,0,0,3,3,3,6,6,6] !! col
 >         genShape start = start:(start+1):(start+2):(genShape (start+9))
 >         theContext = theRow ++ theCol ++ theShape
->         takenValues = [board !! x | x <- theContext]
->         openValues = [(position, x) | x <- [1..9], x `notElem` takenValues]
+>         takenValues = map (board!!) theContext
+>         openValues = map (\x->(position,x)) $ filter (`notElem` takenValues) [1..9]
 
 
 Make a Choice
 -------------
 
-Set a particular position.
+Set a particular position. Clever use of (_:back) to ignore the
+current value in the split position and replace it with value.
 
-> choose board (n, value) = front ++ [value] ++ (drop 1 back)
->   where (front, back) = splitAt n board
+> choose board (n, value) = front ++ [value] ++ back where
+>   (front, _:back) = splitAt n board
+
+
+Helpers
+-------
+
+Find the position of the first element in a list such that a
+predicate is true. I used recursion instead of dropWhile or the
+like because they are not graceful.
+
+> firstWhere pred list = inner 0 list where
+>   inner _ [] = -1
+>   inner p (x:xs) = case pred x of
+>     True  -> p
+>     False -> inner (p+1) xs
 
 
 Sample Data
@@ -78,4 +90,3 @@ Sample Board from => http://www.cs.rit.edu/~ats/fp-2009-1/9/Problems.lhs
 >            4, 0, 0,  0, 5, 0,  0, 0, 3,
 >            0, 2, 0,  1, 0, 6,  0, 7, 0,
 >            0, 9, 7,  0, 0, 0,  5, 2, 0 ] :: [Int]
-
