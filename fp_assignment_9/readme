@@ -1,0 +1,38 @@
+# Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
+# Date: Wednesday November 4, 2009
+# Description: Functional Programming Assignment #9
+# Overview
+
+Solvers
+-------
+
+
+Running Tests
+-------------
+
+We developed a simple testing script. Inside the Literate Haskell Files if you
+include a line starting with "@" it is interpreted as a test line! The line
+should be believed to evaluate to `True`.
+
+The tests are loaded with our Tester.lhs library.  It includes a couple very,
+very basic test functions.
+
+To test an individual file use the `test_runner` shell script:
+
+  shell> ./test_runner
+  usage: test_runner [-v] fileName
+    -v  echos the test script to the console
+
+  shell> ./test_runner Assignment.lhs
+  "PASS"
+  "PASS"
+  ...
+
+
+Resources Used
+--------------
+
+Our Reading Lists:
+
+  + http://www.cs.rit.edu/~jjp1820/fp/
+  + http://conquerant.org/Haskell.aspx
