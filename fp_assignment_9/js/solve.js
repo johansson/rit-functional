@@ -16,3 +16,10 @@ function solve (puzzle) {
     if (result = solve(puzzle.choose(choices[choice]))) return result;
   return null;
 }
+
+// printing in browsers
+if (window) {
+  window.print = function() {
+    console.log.apply(console, arguments);
+  }
+}
