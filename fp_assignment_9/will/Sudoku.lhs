@@ -30,24 +30,9 @@ I _love_ how the actual SLOC for the puzzle model is only 21 lines of code. :)
 >   (beforemove,wherezerowas:aftermove) = splitAt pos matrix
 >   pos = fromJust (findIndex (==0) matrix)
 
-solve' seems to only work for Sudoku puzzles. I will try later to figure
-out how to make it work for N queens as well. Does not terminate
-when it finds a y, it just keeps going on. I guess the reason
-why it works for Sudoku because there is exactly one solution. But
-there are multiple solutions to N queens, which is why solve' would
-return if solving the N queens.
+Finally got a solve function that works with list comprehension!
 
+> solve puzzle = head $ solve' puzzle
 > solve' puzzle = case solved puzzle of
->   True -> puzzle
->   False -> [y | a <- (choices puzzle), y <- solve' (choose puzzle a)]
-
-For the time being, use Joe's solve.
-
-> solve puzzle = case solved puzzle of
->   True  -> puzzle
->   False -> solveChoices (choices puzzle)
->   where
->     solveChoices [] = []
->     solveChoices (x:xs) = case solve (choose puzzle x) of
->       [] -> solveChoices xs
->       result -> result
+>   True -> [puzzle]
+>   False -> [y | a <- (choices puzzle), y <- solve' (choose puzzle a), solved y]
