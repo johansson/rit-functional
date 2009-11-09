@@ -60,20 +60,8 @@ function SudokuPuzzle(matrix)
 		var row = Math.floor(index / 9); // sigh, not integer division
 		var row_positionIn3x3cell = row % 3;
 		
-		var startCol = positionInRow;
-		var startRow = row;
-		
-		switch(col_positionIn3x3cell)
-		{
-			case 1: startCol--; break;
-			case 2: startCol -= 2;
-		}
-
-		switch(row_positionIn3x3cell)
-		{
-			case 1: startRow--; break;
-			case 2: startRow -= 2;
-		}
+		var startCol = positionInRow - col_positionIn3x3cell;
+		var startRow = row - row_positionIn3x3cell;
 		
 		for(var i = minInRow[row]; i <= maxInRow[row]; i++)
 		{
