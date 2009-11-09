@@ -1,0 +1,31 @@
+﻿Will Johansson's README
+
+To run the JavaScript version, simply open index.html. It doesn't work
+in Internet Explorer, so don't even try IE!
+
+Probably best in Firefox, since it will present you with a dialog
+complaining that the script is being too slow, just check the checkbox
+to shut it up. Safari has no such checkbox, so you have to click on OK
+again and again and again.
+
+To run the Haskell versions, simply do:
+
+$ ghci Queens.lhs
+*Queens> solve queens
+
+and for Sudoku:
+
+$ ghci Sudoku.lhs Problems.lhs
+*Sudoku> :m + Problems
+*Sudoku Problems> solve trivial
+*Sudoku Problems> solve profi
+*Sudoku Problems> solve diabolical
+*Sudoku Problems> solve problem
+
+$ ghci Sudoku.lhs Hutton.lhs
+*Sudoku> :m + Hutton
+*Sudoku Hutton> solve easy
+*Sudoku Hutton> solve gentle
+*Sudoku Hutton> solve diabolical
+*Sudoku Hutton> solve unsolvable
+*Sudoku Hutton> solve minimal
