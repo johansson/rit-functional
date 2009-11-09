@@ -2,7 +2,7 @@ Will Johansson's version
 Pretty much a straight port from JavaScript.
 s/getIndicesForPosition/getPositionsToCheck/
 
-I _love_ how the actual SLOC for the puzzle model is only 21 lines of code. :)
+I _love_ how the actual SLOC for the puzzle model is only 15 lines of code. :)
 
 > module Sudoku where
 > import Data.List
@@ -17,14 +17,8 @@ I _love_ how the actual SLOC for the puzzle model is only 21 lines of code. :)
 >   rowvalues = [x | x <- [0..80], x >= (pos `div` 9)*9, x < (pos `div` 9 + 1)*9, x /= pos]
 >   colvalues = [x | x <- [0..80], x `mod` 9 == pos `mod` 9, x /= pos]
 >   squarevalues = [y+x*9 | x <- take 3 [startRow..], y <- take 3 [startCol..], y+x*9 /= pos]
->   startRow = case ((pos `div` 9) `mod` 3) of
->     0 -> pos `div` 9
->     1 -> (pos `div` 9) - 1
->     2 -> (pos `div` 9) - 2
->   startCol = case (pos `mod` 3) of
->     0 -> pos `mod` 9
->     1 -> (pos `mod` 9) - 1
->     2 -> (pos `mod` 9) - 2
+>   startRow = (pos `div` 9) - ((pos `div` 9) `mod` 3)
+>   startCol = (pos `mod` 9) - (pos `mod` 3)
 >
 > choose matrix move = beforemove ++ [move] ++ aftermove where
 >   (beforemove,wherezerowas:aftermove) = splitAt pos matrix
