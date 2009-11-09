@@ -27,15 +27,6 @@ which do not clash with diagonals.
 >   where
 >     col = length rows + 1
 
-function solve (puzzle) {
-  if (puzzle.solved()) return puzzle;
-  
-  var result, choices = puzzle.choices();
-  for (var choice in choices)
-    if (result = solve(puzzle.choose(choices[choice]))) return result;
-  return null;
-}
-
 Finally got a solve function that works with list comprehension!
 
 But we have to be careful because head will NOT like [] as an argument, but
