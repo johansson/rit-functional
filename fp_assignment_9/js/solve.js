@@ -18,7 +18,7 @@ function solve (puzzle) {
 }
 
 // printing in browsers
-if (window) {
+if (this.window) {
   window.print = function() {
     console.log.apply(console, arguments);
   }

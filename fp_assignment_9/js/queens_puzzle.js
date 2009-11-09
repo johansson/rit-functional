@@ -74,6 +74,10 @@ if (!Array.prototype.indexOf) {
 //   Driver
 // ----------
 
-var puzzle = new QueensPuzzle(8, [], [], []);
-var result = solve(puzzle);
-print(result.toString());
+function main() {
+  var puzzle = new QueensPuzzle(8, [], [], []);
+  var result = solve(puzzle);
+  print(result.toString());
+}
+
+main();

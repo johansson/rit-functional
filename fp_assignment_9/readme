@@ -1,32 +1,84 @@
 # Authors: Joseph Pecoraro (jjp1820) and Will Johansson (whj0310)
-# Date: Wednesday November 4, 2009
+# Date: Monday November 9, 2009
 # Description: Functional Programming Assignment #9
 # Overview
 
-Solvers
--------
+
+Will's Solutions
+----------------
+
+  + See `will` subdirectory and readme in that directory.
+  + Has a nice HTML page for testing his JavaScript solution
+  + Has a Haskell solution
 
 
-Running Tests
+Joe's Solvers
 -------------
 
-We developed a simple testing script. Inside the Literate Haskell Files if you
-include a line starting with "@" it is interpreted as a test line! The line
-should be believed to evaluate to `True`.
+Haskell and JavaScript solvers are in the `haskell` and `js` subdirectories
+respectively.
 
-The tests are loaded with our Tester.lhs library.  It includes a couple very,
-very basic test functions.
+To Run the Haskell Puzzles, you can run any of the sample puzzles. Each haskell
+file includes a definition of solve (they are identical) for easy loading.
 
-To test an individual file use the `test_runner` shell script:
-
-  shell> ./test_runner
-  usage: test_runner [-v] fileName
-    -v  echos the test script to the console
-
-  shell> ./test_runner Assignment.lhs
-  "PASS"
-  "PASS"
+  shell> ghci
+  ghci> :l Sudoku
+  ghci> solve sudoku
   ...
+  
+  ghci> :l Queens
+  ghci> solve queens
+  ...
+
+To Run the JavaScript Puzzles use an appropriate JavaScript Interpreter.
+You can also run the files in a browser console (like the Web Inspector
+or Firebug).  Assuming you have aliased your JavaScript Interpreter to "js"
+you can run the sample puzzles you can just run like so:
+
+NOTE: This immediately runs a simple puzzle. If Rhino's -e worked properly
+(like JavaScriptCore's) I would have done this differently.
+
+  shell> js -f solve.js sudoku_puzzle.js
+  ...
+  
+  shell> js -f solve.js queens_puzzle.js
+  ...
+  
+If you want to try specific puzzles you can load up the scripts manually
+and test them (some are already provided in variables):
+
+  shell> js
+  js> load('solve.js');
+  js> load('sudoku_puzzle.js');
+  ... /* output from driver */
+  js> solve(diabolical);
+  ...
+
+
+Links to JavaScript Interpreters
+--------------------------------
+
+All of the following Interpreters support the "-f <file>" command line switch
+to interpret a source file and have been tested with our script.
+
+  1. WebKit's JavaScriptCore (C++)
+  If you're on Mac OS X you may be able to use the System JS Interpreter:
+  /System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc
+  Information => http://webkit.org/
+  Build Info => http://webkit.org/building/build.html
+
+  2. Mozilla's Spidermonkey (C)
+  Information => http://www.mozilla.org/js/spidermonkey/
+  Download => http://ftp.mozilla.org/pub/mozilla.org/js/
+  Build Info => https://developer.mozilla.org/en/SpiderMonkey_Build_Documentation
+
+  3. Mozilla's Rhino (Java)
+  Information => http://www.mozilla.org/rhino/
+  Download => http://www.mozilla.org/rhino/download.html
+
+  4. Google's v8 (C++)
+  Information => http://code.google.com/p/v8/
+  Build Info => http://code.google.com/apis/v8/build.html
 
 
 Resources Used

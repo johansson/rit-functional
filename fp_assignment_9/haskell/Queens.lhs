@@ -22,3 +22,18 @@ which do not clash with diagonals.
 >               [[dim], row:rows, (row-col):ups, (row+col):downs]
 >   where
 >     col = length rows + 1
+
+
+== Copied From Solve.lhs ==
+
+Solve Function
+--------------
+
+> solve puzzle = case solved puzzle of
+>   True  -> puzzle
+>   False -> solveChoices (choices puzzle)
+>   where
+>     solveChoices [] = []
+>     solveChoices (x:xs) = case solve (choose puzzle x) of
+>       [] -> solveChoices xs
+>       result -> result

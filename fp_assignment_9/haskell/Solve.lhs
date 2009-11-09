@@ -5,7 +5,6 @@ Haskell
 
 
 > module Solve where
-> import Sudoku
 
 Solve Function
 --------------
