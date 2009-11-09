@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
+  <head>
+    <title>Functional Programming, Homework 9</title>
+	<script type="text/javascript" src="solve.js"></script>
+	<script type="text/javascript" src="queens.js"></script>
+	<script type="text/javascript" src="sudoku.js"></script>
+	<script type="text/javascript">
+		function queens()
+		{
+			var q_sol = document.getElementById('q_solution');
+			var puzzle = new QueensPuzzle(8,[],[],[]);
+			var output = solve(puzzle);
+
+			if (output != null)
+			{
+				q_sol.innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				q_sol.innerHTML = "<p>No solution.</p>";
+			}
+		}
+		
+		function sudoku()
+		{
+ // from Page-A-Day Sudoku Calendar, April-19-2008
+var trivial =    [ 0, 4, 6,  0, 0, 0,  8, 9, 0,
+                0, 7, 0,  4, 0, 9,  0, 1, 0,
+                5, 0, 0,  0, 8, 0,  0, 0, 6,
+ 
+                0, 0, 3,  9, 0, 8,  6, 0, 0,
+                9, 0, 0,  0, 0, 0,  0, 0, 2,
+                0, 0, 8,  5, 0, 2,  1, 0, 0,
+ 
+                4, 0, 0,  0, 5, 0,  0, 0, 3,
+                0, 2, 0,  1, 0, 6,  0, 7, 0,
+                0, 9, 7,  0, 0, 0,  5, 2, 0 ];
+
+ // from Die Zeit "Sudoku für Profis" Fischer 2005
+ var profi =      [ 1, 0, 7,  0, 0, 9,  8, 0, 4,
+                0, 0, 3,  0, 4, 0,  0, 0, 0,
+                8, 0, 2,  0, 0, 5,  0, 0, 6,
+             
+                0, 0, 0,  0, 8, 0,  3, 0, 0,
+                0, 0, 0,  5, 0, 0,  0, 0, 0,
+                2, 3, 8,  0, 0, 0,  0, 1, 0,
+             
+                0, 8, 1,  0, 0, 6,  5, 0, 0,
+                0, 2, 0,  0, 0, 4,  0, 0, 0,
+                3, 0, 0,  9, 0, 8,  7, 0, 0 ];
+
+ // from Michael Mepham "The Book of Sudoku" The Overlook Press, 2005
+ var diabolical1 = [ 8, 0, 0,  7, 0, 1,  0, 0, 2,
+                0, 0, 6,  0, 0, 0,  7, 0, 0,
+                0, 1, 7,  0, 0, 0,  8, 9, 0,
+                
+                0, 0, 0,  1, 7, 3,  0, 0, 0,
+                7, 0, 0,  0, 0, 0,  0, 0, 6,
+                0, 0, 0,  9, 5, 6,  0, 0, 0,
+                
+                0, 9, 5,  0, 0, 0,  4, 1, 0,
+                0, 0, 8,  0, 0, 0,  5, 0, 0,
+                3, 0, 0,  6, 0, 5,  0, 0, 7 ];
+
+ // unknown source, ambiguous
+ var problem =    [ 1, 0, 0,  0, 0, 0,  0, 0, 9,
+                0, 5, 0,  0, 0, 0,  0, 2, 0,
+                0, 0, 9,  0, 0, 0,  4, 0, 0,
+
+                0, 0, 0,  5, 6, 7,  0, 0, 0,
+                0, 0, 0,  8, 9, 1,  0, 0, 0,
+                0, 0, 0,  2, 3, 4,  0, 0, 0,
+
+                0, 0, 5,  0, 0, 0,  9, 0, 0,
+                0, 7, 0,  0, 0, 0,  0, 4, 0,
+                9, 0, 0,  0, 0, 0,  0, 0, 8 ];
+
+// Hutton
+
+ var easy =       [ 2, 0, 0,  0, 0, 1,  0, 3, 8,
+                0, 0, 0,  0, 0, 0,  0, 0, 5,
+                0, 7, 0,  0, 0, 6,  0, 0, 0,
+
+                0, 0, 0,  0, 0, 0,  0, 1, 3,
+                0, 9, 8,  1, 0, 0,  2, 5, 7,
+                3, 1, 0,  0, 0, 0,  8, 0, 0,
+
+                9, 0, 0,  8, 0, 0,  0, 2, 0,
+                0, 5, 0,  0, 6, 9,  7, 8, 4,
+                4, 0, 0,  2, 5, 0,  0, 0, 0 ]
+
+// First gentle example from sudoku.org.uk:
+
+ var gentle =     [ 0, 1, 0,  4, 2, 0,  0, 0, 5,
+                0, 0, 2,  0, 7, 1,  0, 3, 9,
+                0, 0, 0,  0, 0, 0,  0, 4, 0,
+
+                2, 0, 7,  1, 0, 0,  0, 0, 6,
+                0, 0, 0,  0, 4, 0,  0, 0, 0,
+                6, 0, 0,  0, 0, 7,  4, 0, 3,
+
+                0, 7, 0,  0, 0, 0,  0, 0, 0,
+                1, 2, 0,  7, 3, 0,  5, 0, 0,
+                3, 0, 0,  0, 8, 2,  0, 7, 0 ]
+
+//First diabolical example:
+
+ var diabolical2 = [ 0, 9, 0,  7, 0, 0,  8, 6, 0,
+                0, 3, 1,  0, 0, 5,  0, 2, 0,
+                8, 0, 6,  0, 0, 0,  0, 0, 0,
+
+                0, 0, 7,  0, 5, 0,  0, 0, 6,
+                0, 0, 0,  3, 0, 7,  0, 0, 0,
+                5, 0, 0,  0, 1, 0,  7, 0, 0,
+
+                0, 0, 0,  0, 0, 0,  1, 0, 9,
+                0, 2, 0,  6, 0, 0,  3, 5, 0,
+                0, 5, 4,  0, 0, 8,  0, 7, 0 ]
+
+//First unsolvable (requires backtracking) example:
+
+ var unsolvable = [ 1, 0, 0,  9, 0, 7,  0, 0, 3,
+                0, 8, 0,  0, 0, 0,  0, 7, 0,
+                0, 0, 9,  0, 0, 0,  6, 0, 0,
+
+                0, 0, 7,  2, 0, 9,  4, 0, 0,
+                4, 1, 0,  0, 0, 0,  0, 9, 5,
+                0, 0, 8,  5, 0, 4,  3, 0, 0,
+
+                0, 0, 3,  0, 0, 0,  7, 0, 0,
+                0, 5, 0,  0, 0, 0,  0, 4, 0,
+                2, 0, 0,  8, 0, 6,  0, 0, 9 ]
+
+//Minimal sized grid (17 values) with a unique solution:
+
+ var minimal =    [ 0, 9, 8,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  0, 7, 0,  0, 0, 0,
+                0, 0, 0,  0, 1, 5,  0, 0, 0,
+                  
+                1, 0, 0,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  2, 0, 0,  0, 0, 9,
+                0, 0, 0,  9, 0, 6,  0, 8, 2,
+
+                0, 0, 0,  0, 0, 0,  0, 3, 0,
+                5, 0, 1,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  4, 0, 0,  0, 2, 0 ]
+  
+			var puzzle = new SudokuPuzzle(trivial);
+			var output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_1').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_1').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+			
+			puzzle = new SudokuPuzzle(profi);
+			output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_2').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_2').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+
+			puzzle = new SudokuPuzzle(diabolical1);
+			output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_3').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_3').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+			
+			puzzle = new SudokuPuzzle(problem);
+			output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_4').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_4').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+			
+			puzzle = new SudokuPuzzle(easy);
+			output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_5').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_5').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+			
+			puzzle = new SudokuPuzzle(gentle);
+			output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_6').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_6').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+			
+			puzzle = new SudokuPuzzle(diabolical2);
+			output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_7').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_7').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+			
+			puzzle = new SudokuPuzzle(unsolvable);
+			output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_8').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_8').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+			
+			puzzle = new SudokuPuzzle(minimal);
+			output = solve(puzzle); // solve(puzzle);
+
+			if (output != null)
+			{
+				document.getElementById('s_solution_9').innerHTML = "<p><pre>" + output.toString() + "</pre></p>";
+			}
+			else
+			{
+				document.getElementById('s_solution_9').innerHTML = "<p>Unsolvable:<br /><pre>" + puzzle.toString() + "</pre></p>";
+			}
+			
+		}
+		
+		function puzzles()
+		{
+			queens();
+			sudoku();
+		}
+	</script>
+  </head>
+  <body onLoad="puzzles();">
+    <h1>Functional Programming</h1>
+	<h2>Homework 9, version by Will Johansson</h2>
+	<h3>Queens solution:</h3>
+	<div id="q_solution"></div>
+	<h3>Sudoku solution:</h3>
+	<div id="s_solution_1"></div>
+	<div id="s_solution_2"></div>
+	<div id="s_solution_3"></div>
+	<div id="s_solution_4"></div>
+	<div id="s_solution_5"></div>
+	<div id="s_solution_6"></div>
+	<div id="s_solution_7"></div>
+	<div id="s_solution_8"></div>
+	<div id="s_solution_9"></div>
+  </body>
+</html>
