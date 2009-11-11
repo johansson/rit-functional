@@ -1,4 +1,4 @@
-> module Problems where
+﻿> module Problems where
 
 > -- from Page-A-Day Sudoku Calendar, April-19-2008
 > trivial =    [ 0, 4, 6,  0, 0, 0,  8, 9, 0,

@@ -1,4 +1,4 @@
-N Queens.
+﻿N Queens.
 
 Authors: Will Johansson and Prof. Schreiner and Joseph Pecoraro
 

@@ -1,4 +1,4 @@
-Will Johansson
+﻿Will Johansson
 Haskell Solver
 
 > module Solver where

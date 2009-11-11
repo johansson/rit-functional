@@ -1,4 +1,4 @@
-Will Johansson's version
+﻿Will Johansson's version
 Pretty much a straight port from JavaScript.
 s/getIndicesForPosition/getPositionsToCheck/
 
